@@ -24,9 +24,12 @@ class RedditPostModel {
   String? _createdUTC;
   String? _linkFlairText;
   String? _thumbnailClickURL;
+  String? _linkFlairBackgroundColor;
   int? _ups;
   int? _downs;
   int? _numOfComments;
+  int? _thumbnailHeight;
+  int? _thumbnailWidth;
   String? get title => _title;
   String? get thumbnail => _thumbnail;
   String? get description => _description;
@@ -35,9 +38,12 @@ class RedditPostModel {
   String? get createdUTC => _createdUTC;
   String? get linkFlairText => _linkFlairText;
   String? get thumbnailClickURL => _thumbnailClickURL;
+  String? get linkFlairBackgroundColor => _linkFlairBackgroundColor;
   int? get ups => _ups;
   int? get downs => _downs;
   int? get numOfComments => _numOfComments;
+  int? get thumbnailHeight => _thumbnailHeight;
+  int? get thumbnailWidth => _thumbnailWidth;
 
   RedditPostModel(Map<String, dynamic> json) {
     _title = json['data']['title'];
@@ -51,6 +57,9 @@ class RedditPostModel {
     _ups = json['data']['ups'];
     _downs = json['data']['downs'];
     _numOfComments = json['data']['num_comments'];
+    _thumbnailHeight = json['data']['thumbnail_height'];
+    _thumbnailWidth = json['data']['thumbnail_width'];
+    _linkFlairBackgroundColor = json['data']['link_flair_background_color'];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -86,6 +95,15 @@ class RedditPostModel {
     }
     if (_thumbnailClickURL != null) {
       data['url_overridden_by_dest'] = _thumbnailClickURL;
+    }
+    if (_thumbnailHeight != null) {
+      data['thumbnail_height'] = _thumbnailHeight;
+    }
+    if (_thumbnailWidth != null) {
+      data['thumbnail_width'] = _thumbnailWidth;
+    }
+    if (_linkFlairBackgroundColor != null) {
+      data['link_flair_background_color'] = _linkFlairBackgroundColor;
     }
     return data;
   }
