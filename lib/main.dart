@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rocketx/api.dart';
-import 'package:rocketx/models/reddit_posts.dart';
-import 'package:rocketx/widgets/reddit_post_item.dart';
+import 'package:rocketx/screens/screen_reddit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,47 +18,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  RedditPostsModel _getPostsResponse = RedditPostsModel({});
-  List<RedditPostModel> _posts = [];
-
-  Future<List<RedditPostModel>> getPosts() async {
-    _getPostsResponse = await RocketXAPI.reddit().getRedditPosts('20', 'flutterdev', 'top');
-    setState(() {
-      _posts = _getPostsResponse.postList;
-    });
-    return _posts;
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(useMaterial3: true),
-      title: 'RocketX',
-      home: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-        ),
-        appBar: AppBar(
-          title: const Text('RocketX'),
-        ),
-        body: FutureBuilder(
-            future: getPosts(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return RedditPostItem(post: snapshot.data![index]);
-                  },
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(useMaterial3: true)
+            .copyWith(scaffoldBackgroundColor: const Color(0xFF1A1A1B), cardTheme: const CardTheme(color: Color.fromARGB(221, 0, 0, 0))),
+        title: 'RocketX',
+        home: RepositoryProvider(
+          create: (context) => RocketXAPI.reddit(),
+          child: const ScreenReddit(),
+        ));
   }
 }

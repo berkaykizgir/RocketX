@@ -1,7 +1,6 @@
-import 'package:rocketx/models/generic_model.dart';
 import 'package:rocketx/utilities.dart';
 
-class RedditPostsModel extends GenericModel {
+class RedditPostsModel {
   List<RedditPostModel> _postList = [];
   List<RedditPostModel> get postList => _postList;
 

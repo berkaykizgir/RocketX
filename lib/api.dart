@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:rocketx/models/error_model.dart';
+import 'package:rocketx/models/reddit_community.dart';
 import 'package:rocketx/models/reddit_posts.dart';
 
 class RocketXAPI {
@@ -81,11 +81,11 @@ class RocketXAPI {
     return RedditPostsModel({});
   }
 
-  Future<dynamic> getSpaceXData() async {
-    dynamic response = await get(resources: ['v4', 'launches']);
+  Future<RedditCommunityModel> getRedditCommunityOwner(String count, String profile) async {
+    dynamic response = await get(resources: ['r', profile, 'about.json']);
     if (response['code'] == 200) {
-      return (response['json']);
+      return (RedditCommunityModel(response['json']));
     }
-    return ErrorModel(response['code']);
+    return RedditCommunityModel({});
   }
 }
